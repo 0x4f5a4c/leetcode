@@ -1,25 +1,9 @@
 class Solution {
 public:
-    // guess to brute force 
-    // time complexity : O(n) + O(n)
-    // space complexity : O(n)
+    // approach 2
     int majorityElement(vector<int>& nums) {
-        unordered_map<int, int> mpp;  // [element, count]
+        sort(nums.begin(), nums.end()); // sorting takes some time sweetheart
         int n = nums.size();
-        // O(n)
-        for (int i = 0; i < n; ++i) {
-            mpp[nums[i]]++;    
-        }
-
-        int ans;
-        // O(n)
-        for (auto data : mpp) {
-            if (data.second > n/2) {
-                ans = data.first;
-                break;
-            }
-        }
-
-        return ans;
+        return nums[n/2];
     }
 };
