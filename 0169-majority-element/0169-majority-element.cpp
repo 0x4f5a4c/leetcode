@@ -1,9 +1,16 @@
 class Solution {
 public:
-    // approach 2
+    // time complexity : O(n)
+    // space complexity : O(1)
+    
     int majorityElement(vector<int>& nums) {
-        sort(nums.begin(), nums.end()); // sorting takes some time sweetheart
-        int n = nums.size();
-        return nums[n/2];
-    }
+        int count = 0, candidate = 0;
+        for (int n : nums) {
+            if (count == 0) candidate = n;
+            if (n == candidate) count++;
+            else count--;
+        }
+
+        return candidate;
+     }
 };
