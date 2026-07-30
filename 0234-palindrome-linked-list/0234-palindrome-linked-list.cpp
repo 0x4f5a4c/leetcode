@@ -8,27 +8,45 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
+// better then before -- reduce space complexity 
+// time complexity : O(N)
+// space complexity : O(1)
 class Solution {
 public:
     bool isPalindrome(ListNode* head) {
-        // brute force  -- just thinking 
-        vector<int> a;
+        // optimize solution
         if (!head) return false;
-
-        ListNode *temp = head;
-        while (temp) {
-            a.push_back(temp->val);
-            temp = temp->next;
+        ListNode *slow = head, *fast = head;
+        while (fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
         }
 
-        // now check in the array a
-        int l = 0, h = a.size()-1;
-        while (l <= h) {
-            if (a[l] != a[h]) return false;
-            l++;
-            h--;
+        if (fast) {
+            slow = slow->next;
+        }
+
+        slow = reversing(slow);
+        fast = head;
+
+        while (fast && slow) {
+            if (fast->val != slow->val) return false;
+            fast = fast->next;
+            slow = slow->next;
         }
 
         return true;
+    }
+
+    ListNode *reversing(ListNode *slow) {
+        ListNode *prev = nullptr;
+        while (slow) {
+            ListNode *next = slow->next;
+            slow->next = prev;
+            prev = slow;
+            slow = next;
+        }
+
+        return prev;
     }
 };
