@@ -1,8 +1,14 @@
 class Solution {
 public:
-    // this approach passes the test cases
+    // approach without sorting
     int findKthLargest(vector<int>& nums, int k) {
-        sort(nums.begin(), nums.end());
-        return nums[nums.size() - k];
+        priority_queue<int, vector<int>, greater<int>> min_heap(nums.begin(), nums.begin() + k);
+        for (int i = k; i < nums.size(); ++i) {
+            if (nums[i] > min_heap.top()) {
+                min_heap.pop();
+                min_heap.push(nums[i]);
+            }
+        }
+        return min_heap.top();
     }
 };
