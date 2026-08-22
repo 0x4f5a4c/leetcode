@@ -18,3 +18,27 @@ public:
         return n % (sum + product) == 0;
     }
 };
+
+class Solution {
+public:
+
+    pair<int, int> sum_product(int n) {
+        int sum = 0, product = 1;
+
+        for (int i = n; i > 0; i /= 10) {
+            const int rem = i % 10;
+            sum += rem;
+            product *= rem;
+        }
+
+        return {sum, product};
+    }
+
+    bool checkDivisibility(int n) {
+        int orignal_n = n;
+        auto response = sum_product(n);
+
+        int ans = response.first + response.second;
+        return (orignal_n % (ans)) == 0;
+    }
+};
