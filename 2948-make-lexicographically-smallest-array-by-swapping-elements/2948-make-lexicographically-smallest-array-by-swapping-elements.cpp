@@ -38,3 +38,54 @@ public:
         return res;
     }
 };
+
+// brute force solution
+class Solution {
+public:
+    vector<int> lexicographicallySmallestArray(vector<int>& nums, int limit) {
+        int n = nums.size();
+        // too much time consuming
+        bool changed = true;
+        while (changed) {
+            changed = false;
+            for (int i = 0; i < n; ++i) {
+                for (int j = i + 1; j < n; ++j) {
+    
+                    if (nums[i] > nums[j] && abs(nums[i] - nums[j]) <= limit) {
+                        swap(nums[i], nums[j]);
+                        changed = true;
+                    }
+                }
+            }
+        }
+        return nums;
+    }
+};
+
+
+class Solution {
+public:
+    vector<int> lexicographicallySmallestArray(vector<int>& nums, int limit) {
+        int n = nums.size();
+        // another solution
+        for (int i = 0; i < n; ++i) {
+
+            while (true) {
+                int smalled_value = nums[i];
+                int idx = -1;
+                for (int j = i + 1; j < n; ++j) {
+                    if (abs(nums[i] - nums[j]) <= limit && nums[j] < smalled_value) {
+                        smalled_value = nums[j];
+                        idx = j;
+                    }
+                }
+
+                if (idx != -1) {
+                    swap(nums[idx], nums[i]);
+                } else break;
+            }
+        }
+
+        return nums;
+    }
+};
