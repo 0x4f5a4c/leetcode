@@ -1,19 +1,20 @@
+// رَبِّ زِدْنِي عِلْمًا
+// اے میرے رب! میرے علم میں اضافہ فرما۔
+#include <bits/stdc++.h>
+using namespace std;
+
+/**
+ * efficient solution
+ */
 
 class Solution {
 public:
-    // this is working but not the efficient solution
     int singleNumber(vector<int>& nums) {
         int n = nums.size();
-        unordered_map<int, int> freq;  // <nums, freq>
-
+        int ans = 0;
         for (int i = 0; i < n; ++i) {
-            freq[nums[i]]++;
+            ans ^= nums[i];
         }
-
-        for (auto [elem, freqency] : freq) {
-            if (freqency == 1) return elem;
-        }
-
-        return -1;
+        return ans;
     }
 };
