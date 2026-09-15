@@ -1,3 +1,8 @@
+// رَبِّ زِدْنِي عِلْمًا
+// اے میرے رب! میرے علم میں اضافہ فرما۔
+#include <bits/stdc++.h>
+using namespace std;
+
 class Solution {
 public:
     int maxPalindromes(string s, int k) {
