@@ -1,19 +1,12 @@
-// رَبِّ زِدْنِي عِلْمًا
-// اے میرے رب! میرے علم میں اضافہ فرما۔
-#include <bits/stdc++.h>
-using namespace std;
 
 class Solution {
 public:
     bool isAnagram(string s, string t) {
         if (s.length() != t.length()) return false;
-        unordered_map<char, int> count;
-        for (char c : s) count[c]++;
-        for (char c : t) {
-            if (count.find(c) == count.end()) return false;
-            count[c]--;
-            if (count[c] < 0) return false;
-        }
-        return true;
+        sort(s.begin(), s.end());  // takes O(nlogn) time complexity
+        sort(t.begin(), t.end());  // takes O(nlogn) time complexity
+        return s == t;
     }
+    // total time complexity: O(nlogn)
+    // space complexity: O(1) if we ignore the space used by the sorting algorithm, otherwise O(n) for the sorted strings.
 };
