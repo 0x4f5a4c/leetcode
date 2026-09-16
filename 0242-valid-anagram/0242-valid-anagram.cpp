@@ -1,12 +1,14 @@
-
 class Solution {
 public:
     bool isAnagram(string s, string t) {
-        if (s.length() != t.length()) return false;
-        sort(s.begin(), s.end());  // takes O(nlogn) time complexity
-        sort(t.begin(), t.end());  // takes O(nlogn) time complexity
-        return s == t;
+        // another solution using vector
+        if (s.size() != t.size()) return false;
+        vector<int> count(26, 0);  // initially the count is 0
+        for (char ch : s) count[ch - 'a']++;
+        for (char ch : t) {
+            count[ch - 'a']--;
+            if (count[ch - 'a'] < 0) return false;
+        }
+        return true;
     }
-    // total time complexity: O(nlogn)
-    // space complexity: O(1) if we ignore the space used by the sorting algorithm, otherwise O(n) for the sorted strings.
 };
