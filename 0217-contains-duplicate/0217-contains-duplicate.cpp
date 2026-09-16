@@ -3,19 +3,18 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// brute force approach
+
+// approach 2
 class Solution {
 public:
     bool containsDuplicate(vector<int>& nums) {
-        unordered_map<int, int> mpp;
+        unordered_set<int> st;
         int n = nums.size();
         for (int i = 0; i < n; i++) {
-            mpp[nums[i]]++;
-        }
-        for (auto it : mpp) {
-            if (it.second > 1) {
+            if (st.count(nums[i]) > 0) {
                 return true;
             }
+            st.insert(nums[i]);
         }
         return false;
     }
