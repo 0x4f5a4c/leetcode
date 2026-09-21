@@ -7,27 +7,22 @@ class Solution {
 public:
     vector<int> productExceptSelf(vector<int>& nums) {
         int n = nums.size();
-        int zero_count = 0;
-        int non_zero_product = 1;
-        for (int x : nums) {
-            if (x == 0) {
-                zero_count++;
-            } else {
-                non_zero_product *= x;
-            }
+        vector<int> left_profucts(n, 1);
+        left_profucts[0] = 1;
+        for (int i = 1; i < n; ++i) {
+            left_profucts[i] = left_profucts[i - 1] * nums[i-1];
         }
 
-        vector<int> ans(n, 0);
+        vector<int> right_product(n, 1);
+        right_product[n-1] = 1;
+        for (int i = n-2; i >= 0; --i) {
+            right_product[i] = right_product[i + 1] * nums[i+1];
+        }
+
+        vector<int> ans(n);
         for (int i = 0; i < n; ++i) {
-            if (zero_count > 1) {
-                ans[i] = 0;
-            } else if (zero_count == 1) {
-                ans[i] = (nums[i] == 0) ? non_zero_product : 0;
-            } else {
-                ans[i] = non_zero_product / nums[i];
-            }
+            ans[i] = left_profucts[i] * right_product[i];
         }
-
         return ans;
     }
 };
