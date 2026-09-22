@@ -1,23 +1,27 @@
+// رَبِّ زِدْنِي عِلْمًا
+// اے میرے رب! میرے علم میں اضافہ فرما۔
+#include <bits/stdc++.h>
+using namespace std;
+
 class Solution {
 public:
     bool isPalindrome(string s) {
-        int left = 0, right = s.size() - 1;
-
-        while (left <= right) {
-            if(!isalnum(s[left])) {
-                left++;
+        int start = 0, end = s.size() - 1;
+        while (start <= end) {
+            if (!isalnum(s[start])) {
+                start++;
                 continue;
             }
 
-            if(!isalnum(s[right])) {
-                right--;
+            if(!isalnum(s[end])) {
+                end--;
                 continue;
             }
 
-            if (tolower(s[left]) != tolower(s[right])) return false;
+            if (tolower(s[start]) != tolower(s[end]))  return false;
             else {
-                left++;
-                right--;
+                start++;
+                end--;
             }
         }
 
