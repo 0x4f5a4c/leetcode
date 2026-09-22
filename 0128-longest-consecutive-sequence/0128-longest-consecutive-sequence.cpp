@@ -3,26 +3,27 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// better solution
+
+// another approach using unordered_set
+
 class Solution {
 public:
     int longestConsecutive(vector<int>& nums) {
-        sort(nums.begin(), nums.end());
         int n = nums.size();
         if (n == 0 || n == 1) return n;
+        int longest = 1;
+        unordered_set<int> st(nums.begin(), nums.end());
+        for (auto it : st) {
+            if (st.find(it - 1) == st.end()) {
+                int x = it;
+                int count = 1;
 
-        int last_smallest = INT_MIN;
-        int curr_count = 0, longest = 1;
-        for (int i = 0; i < n; ++i) {
-            if (nums[i] - 1 == last_smallest) {
-                curr_count += 1;
-                last_smallest = nums[i];
-            } else if (nums[i] != last_smallest) {
-                curr_count = 1;
-                last_smallest = nums[i];
+                while (st.find(x + 1) != st.end()) {
+                    x += 1;
+                    count += 1;
+                }
+                longest = max(longest, count);
             }
-
-            longest = max(longest, curr_count);
         }
 
         return longest;
