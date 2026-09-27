@@ -9,24 +9,24 @@ using namespace std;
 class Solution {
 public:
     string reverseParentheses(string s) {
-        while (true) {
-            int close = -1;
-            // find the first closing parenthesis 
-            for (int i = 0; i < s.size(); ++i) {
-                if (s[i] == ')') {
-                    close = i;
-                    break;
-                }
-            }
+        stack<string> st;
+        string curr;
 
-            if (close == -1) break;
-            int open = close - 1;
-            while (s[open] != '(') open--;
-            reverse(s.begin() + open+1, s.begin() + close);
-            s.erase(close, 1);
-            s.erase(open, 1);
+        for (char ch : s) {
+            if (ch == '(') {
+                st.push(curr);
+                curr.clear();
+            }
+            else if (ch == ')') {
+                reverse(curr.begin(), curr.end());
+                curr = st.top() + curr;
+                st.pop();
+            }
+            else {
+                curr += ch;
+            }
         }
 
-        return s;
+        return curr;
     }
 };
