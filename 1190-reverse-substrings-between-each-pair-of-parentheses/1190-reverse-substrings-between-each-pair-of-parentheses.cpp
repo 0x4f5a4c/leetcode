@@ -9,24 +9,45 @@ using namespace std;
 class Solution {
 public:
     string reverseParentheses(string s) {
-        stack<string> st;
-        string curr;
 
-        for (char ch : s) {
-            if (ch == '(') {
-                st.push(curr);
-                curr.clear();
+        int n = s.size();
+
+        vector<int> pair(n);
+        stack<int> st;
+
+        // find matching parentheses
+        for (int i = 0; i < n; ++i) {
+
+            if (s[i] == '(') {
+                st.push(i);
             }
-            else if (ch == ')') {
-                reverse(curr.begin(), curr.end());
-                curr = st.top() + curr;
+            else if (s[i] == ')') {
+
+                int j = st.top();
                 st.pop();
-            }
-            else {
-                curr += ch;
+
+                pair[i] = j;
+                pair[j] = i;
             }
         }
 
-        return curr;
+        string ans;
+
+        int i = 0;
+        int direction = 1;
+
+        while (i < n) {
+
+            if (s[i] == '(' || s[i] == ')') {
+                i = pair[i];
+                direction = -direction;
+            }
+            else 
+                ans += s[i];
+
+            i += direction;
+        }
+
+        return ans;
     }
 };
