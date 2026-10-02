@@ -19,8 +19,6 @@ using namespace std;
 // Question Link : https://leetcode.com/problems/diameter-of-binary-tree/description/
 // Question Link : https://neetcode.io/problems/binary-tree-diameter/question?list=neetcode150  
 
-
-
 class Solution {
 public:
 
