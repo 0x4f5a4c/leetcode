@@ -10,20 +10,37 @@
  * };
  */
  
-
 // رَبِّ زِدْنِي عِلْمًا
 // اے میرے رب! میرے علم میں اضافہ فرما۔
 #include <bits/stdc++.h>
+#include "TreeNode.h"
 using namespace std;
 
 // Question Link : https://neetcode.io/problems/depth-of-binary-tree/question?list=neetcode150
 // Question Link : https://leetcode.com/problems/maximum-depth-of-binary-tree/description/
 
-// brute force using q and maintain a count
+/**
+ * Optimize Code
+ */
+
+
 class Solution {
 public:
     int maxDepth(TreeNode* root) {
         if (!root) return 0;
+
+        int lh = maxDepth(root->left);
+        int rh = maxDepth(root->right);
+
+        return 1 + max(lh, rh);
+    }
+};
+
+
+// brute force using q and maintain a count
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
         queue<TreeNode*> q;
         q.push(root);
 
