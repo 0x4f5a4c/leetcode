@@ -20,22 +20,18 @@ using namespace std;
 
 class Solution {
 public:
-    void solve(TreeNode *root, int level, pair<int, int> &ans) {
-        if (!root) return;
+    int findBottomLeftValue(TreeNode *root) {
+        queue<TreeNode*> q;
+        q.push(root);
+        TreeNode *node;
+        while (!q.empty()) {
+            node = q.front();
+            q.pop();
 
-        if (level > ans.first) {
-            ans.first = level;
-            ans.second = root->val;
+            if (node->right) q.push(node->right);
+            if (node->left) q.push(node->left);
         }
 
-        solve(root->left, level + 1, ans);
-        solve(root->right, level + 1, ans);
-    }
-
-    int findBottomLeftValue(TreeNode* root) {
-        if (!root) return 0;
-        pair<int, int> ans = {-1, 0};
-        solve(root, 0, ans);
-        return ans.second;
+        return node->val;
     }
 };
