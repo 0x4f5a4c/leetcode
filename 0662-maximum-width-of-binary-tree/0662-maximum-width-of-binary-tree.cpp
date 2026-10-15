@@ -1,6 +1,8 @@
 // رَبِّ زِدْنِي عِلْمًا
 // اے میرے رب! میرے علم میں اضافہ فرما۔
 
+// Question Link : https://leetcode.com/problems/maximum-width-of-binary-tree/description/
+// Question Link : 
 
 #include <bits/stdc++.h>
 // #include "TreeNode.h"
@@ -10,6 +12,7 @@ class Solution {
 public:
     typedef unsigned long long ll;
     int widthOfBinaryTree(TreeNode* root) {
+        if (!root) return 0;
         queue<pair<TreeNode*, ll>> q;
         q.push({root, 0});
         ll max_width = 0;
@@ -29,7 +32,7 @@ public:
             }
         }
 
-        return max_width;
+        return static_cast<int>(max_width);
     }
 };
 
