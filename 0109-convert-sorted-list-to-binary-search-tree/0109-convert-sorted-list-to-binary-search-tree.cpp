@@ -1,6 +1,7 @@
 // رَبِّ زِدْنِي عِلْمًا
 // اے میرے رب! میرے علم میں اضافہ فرما۔
 
+// Question Link : https://leetcode.com/problems/convert-sorted-list-to-binary-search-tree/description/
 
 #include <bits/stdc++.h>
 // #include "TreeNode.h"
@@ -17,26 +18,30 @@ using namespace std;
 
 class Solution {
 public:
-    TreeNode *solve(vector<int> &nums, int start, int end) {
-        if (start > end) return nullptr;
-        int mid = start + (end - start) / 2;
-        TreeNode *node = new TreeNode(nums[mid]);
-        node->left  = solve(nums, start, mid-1);
-        node->right = solve(nums, mid+1, end);
-        return node;
-    }
-
+    /**
+     * another solution approach 
+     * @time complexity  : O(nlogn)
+     * @space complexity : O(1)
+     */
     TreeNode* sortedListToBST(ListNode* head) {
-        // traverse over the linked list and generate an arrays
-        ListNode *temp = head;
-        vector<int> nums;
-        while (temp != nullptr) {
-            nums.push_back(temp->val);
-            temp = temp->next;
+        if (!head) return nullptr;
+        if (!head->next) return new TreeNode(head->val);
+
+        ListNode *slow_prev = nullptr;
+        ListNode *slow = head;
+        ListNode *fast = head;
+
+        while (fast && fast->next) {
+            slow_prev = slow;
+            slow = slow->next;
+            fast = fast->next->next;
         }
 
-        // now we have the array, now generate an array
-        return solve(nums, 0, nums.size() - 1);
+        TreeNode *node = new TreeNode(slow->val);
+        slow_prev->next = nullptr;
+        node->left  = sortedListToBST(head);
+        node->right = sortedListToBST(slow->next);
+        return node;
     }
 };
 
