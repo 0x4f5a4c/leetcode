@@ -10,7 +10,10 @@ using namespace std;
 class BSTIterator { 
     stack<TreeNode*> st;
     void push_all(TreeNode *node) {
-        for (; node != nullptr; st.push(node), node = node->left);
+        while (node) {
+            st.push(node);
+            node = node->left;
+        }
     }
 public:
     BSTIterator(TreeNode* root) {
@@ -25,7 +28,7 @@ public:
     }
     
     bool hasNext() {
-        return st.size() != 0;
+        return !st.empty();
     }
 };
 
