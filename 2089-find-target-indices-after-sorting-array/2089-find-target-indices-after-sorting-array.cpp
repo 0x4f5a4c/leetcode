@@ -6,24 +6,22 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+
+/**
+ * another approach of solving this 
+ */
+
 class Solution {
 public:
     vector<int> targetIndices(vector<int>& nums, int target) {
-        int n = nums.size();
+        int less = 0, equal = 0;
+        for (int x : nums)
+            if (x < target) less++;
+            else if (x == target) equal++;
+
         vector<int> ans;
-        sort(nums.begin(), nums.end());
-
-        for (int i = 0; i < n; ++i) 
-            if(nums[i] == target)
-                ans.push_back(i);
-
+        for (int i = 0; i < equal; ++i)
+            ans.push_back(less + i);
         return ans;
     }
 };
-
-auto init = []() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
-    return 'c';
-}();
