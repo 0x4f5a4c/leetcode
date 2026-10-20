@@ -1,14 +1,11 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
+// رَبِّ زِدْنِي عِلْمًا
+// اے میرے رب! میرے علم میں اضافہ فرما۔
+
+
+#include <bits/stdc++.h>
+// #include "../TreeNode.h"
+using namespace std;
+
 class Solution {
 public:
     void solve(TreeNode *node, int &sum) {
@@ -22,6 +19,13 @@ public:
     TreeNode* convertBST(TreeNode* root) {
         int sum = 0;
         solve(root, sum);
-        return root;    
+        return root;
     }
 };
+
+auto init = []() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    return 'c';
+}();
