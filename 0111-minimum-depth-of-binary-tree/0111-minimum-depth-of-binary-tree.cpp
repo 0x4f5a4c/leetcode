@@ -6,30 +6,33 @@
 // #include "../TreeNode.h"
 using namespace std;
 
+
 /**
- * another approach using DFS
+ * solved using BFS
  * @details complexities
- * space - O(h)
- * time  - O(n)
+ * space - O(N)
+ * time  - O(N)
  */
-
-
 class Solution {
 public:
-    int solve(TreeNode *node) {
-        if (!node) return 0;
-        int min_left  = solve(node->left);
-        int min_right = solve(node->right);
-
-        if (!node->left && !node->right) return 1;
-        if (!node->left) return 1 + min_right;
-        if (!node->right) return 1 + min_left;
-
-        return min(min_left, min_right) + 1;
-    }
-
     int minDepth(TreeNode* root) {
         if (!root) return 0;
-        return solve(root);
+        int depth = 1;   
+        queue<TreeNode*> q;
+        q.push(root);
+
+        while (!q.empty()) {
+            int sz = q.size();
+            for (int i = 0; i < sz; ++i) {
+                auto curr_node = q.front(); q.pop();
+                if (!curr_node->left && !curr_node->right) return depth;
+                if (curr_node->left) q.push(curr_node->left);
+                if (curr_node->right) q.push(curr_node->right);
+            }
+
+            depth++;
+        }
+
+        return depth;
     }
 };
