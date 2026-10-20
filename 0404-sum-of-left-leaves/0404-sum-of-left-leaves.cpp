@@ -7,27 +7,31 @@
 using namespace std;
 
 /**
- * another solution using iterative approach
+ * Another approach using Iterative DFS Code
+ * @details complexities
+ * Time  - O(n)
+ * Space - O(h) and in best case if tree is perfect balanced tree then space is O(log n)
  */
 
 class Solution {
 public:
     int sumOfLeftLeaves(TreeNode* root) {
         if (!root) return 0;
-        queue<TreeNode*> q;
-        q.push(root);
+        stack<pair<TreeNode*, bool>> st;
         int sum = 0;
-        while (!q.empty()) {
-            int sz = q.size();
-            for (int i = 0; i < sz; ++i) {
-                auto node = q.front(); q.pop();
-                if (node->left) {
-                    if (!node->left->left && !node->left->right) sum += node->left->val;
-                    else q.push(node->left);
-                }
+        st.push({root, false});  // because tree is not the left leaf node
+        while (!st.empty())         {
+            auto [node, is_left] = st.top(); st.pop();
 
-                if (node->right) q.push(node->right);
+            if (!node->left && !node->right && is_left) {
+                sum += node->val;
+                continue;
             }
+
+            if (node->right)
+                st.push({node->right, false});
+            if (node->left)
+                st.push({node->left, true});
         }
 
         return sum;
