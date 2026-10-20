@@ -6,29 +6,30 @@
 // #include "../TreeNode.h"
 using namespace std;
 
+/**
+ * another solution using iterative approach
+ */
+
 class Solution {
 public:
-    void solve(TreeNode *node, bool is_left, int &sum) {
-        if (!node) return;
-        if (!node->left && !node->right && is_left) {
-            sum += node->val;
-            return;  // do not go further
+    int sumOfLeftLeaves(TreeNode* root) {
+        if (!root) return 0;
+        queue<TreeNode*> q;
+        q.push(root);
+        int sum = 0;
+        while (!q.empty()) {
+            int sz = q.size();
+            for (int i = 0; i < sz; ++i) {
+                auto node = q.front(); q.pop();
+                if (node->left) {
+                    if (!node->left->left && !node->left->right) sum += node->left->val;
+                    else q.push(node->left);
+                }
+
+                if (node->right) q.push(node->right);
+            }
         }
 
-        solve(node->left, true, sum);
-        solve(node->right, false, sum);
-    }
-
-    int sumOfLeftLeaves(TreeNode* root) {
-        int sum = 0;
-        solve(root, false, sum);
         return sum;
     }
 };
-
-auto init = []() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
-    return 'c';
-}();
