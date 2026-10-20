@@ -1,40 +1,33 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
-
 // رَبِّ زِدْنِي عِلْمًا
 // اے میرے رب! میرے علم میں اضافہ فرما۔
+
+
 #include <bits/stdc++.h>
+// #include "../TreeNode.h"
 using namespace std;
-
-
-// Question Link : https://leetcode.com/problems/diameter-of-binary-tree/description/
-// Question Link : https://neetcode.io/problems/binary-tree-diameter/question?list=neetcode150  
 
 class Solution {
 public:
+    int solve(TreeNode *node, int &dia) {
+        if (!node) return 0;
+        int lh = solve(node->left, dia);
+        int rh = solve(node->right, dia);
 
-    int height(TreeNode *root, int &diameter) {
-        if (!root) return 0;
-        int lh = height(root->left, diameter);
-        int rh = height(root->right, diameter);
-
-        diameter = max(diameter, lh + rh);
-
+        dia = max({dia, lh + rh});
         return 1 + max(lh, rh);
     }
 
     int diameterOfBinaryTree(TreeNode* root) {
-        int diameter = 0;
-        height(root, diameter);
-        return diameter;
+        int dia = 0;
+        solve(root, dia);
+        return dia;
     }
+    
 };
+
+auto init = []() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    return 'c';
+}();
