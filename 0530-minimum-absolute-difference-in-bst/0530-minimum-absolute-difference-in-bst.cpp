@@ -7,35 +7,30 @@
 using namespace std;
 
 /**
- * @details brute force and first solution
+ * @details using dfs approach 
  * complexities
- * space - O(n) + O(n) {for stack calls}
- * time  - O(2n)
+ * time  - O(n)
+ * space - O(h)
  */
+
 class Solution {
 public:
-    void solve(TreeNode *node, vector<int> &ans) {
+    TreeNode *prev;
+    void dfs(TreeNode *node, int &diff) {
         if (!node) return;
-        solve(node->left, ans);
-        ans.push_back(node->val);
-        solve(node->right, ans);
+        if (node->left) dfs(node->left, diff);
+        if (prev) {
+            diff = min(diff, abs(node->val - prev->val));
+        }
+        prev = node;
+
+        if (node->right) dfs(node->right, diff);
     }
 
     int getMinimumDifference(TreeNode* root) {
-        if (!root) return 0;
-        vector<int> ans;
-        solve(root,ans);
-        int min_dist = INT_MAX;
-        for (int i = 1; i < ans.size(); ++i) {
-            min_dist = min(ans[i] - ans[i-1], min_dist);
-        }
-        return min_dist;
+        int diff = INT_MAX;
+        prev = nullptr;
+        dfs(root, diff);
+        return diff;
     }
 };
-
-auto init = []() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
-    return 'c';
-}();
