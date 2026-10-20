@@ -1,39 +1,32 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
-
 // رَبِّ زِدْنِي عِلْمًا
 // اے میرے رب! میرے علم میں اضافہ فرما۔
-#include <bits/stdc++.h>
-using namespace std;
 
-// Question Link : https://leetcode.com/problems/binary-tree-maximum-path-sum/
-// Question Link : https://neetcode.io/problems/binary-tree-maximum-path-sum/question?list=neetcode150
+
+#include <bits/stdc++.h>
+// #include "../TreeNode.h"
+using namespace std;
 
 class Solution {
 public:
+    int solve(TreeNode *node, int &maxi) {
+        if (!node) return 0;
+        int left_sum = max(0, solve(node->left, maxi));
+        int right_sum = max(0, solve(node->right, maxi));
 
-    int maxiPathDown(TreeNode* root, int &maxi) {
-        if (!root) return 0;
-
-        int leftSum = max(0, maxiPathDown(root->left, maxi));
-        int rightSum = max(0, maxiPathDown(root->right, maxi));
-        maxi = max(maxi, leftSum + rightSum + root->val);
-        return max(leftSum, rightSum) + root->val;
+        maxi = max(maxi, node->val + right_sum + left_sum);
+        return max(left_sum, right_sum) + node->val;
     }
 
     int maxPathSum(TreeNode* root) {
-        if (!root) return 0;
         int maxi = INT_MIN;
-        maxiPathDown(root, maxi);
+        solve(root, maxi);
         return maxi;
     }
 };
+
+auto init = []() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    return 'c';
+}();
