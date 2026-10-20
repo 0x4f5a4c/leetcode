@@ -11,22 +11,14 @@ using namespace std;
 class Solution {
 public:
     TreeNode* insertIntoBST(TreeNode* root, int val) {
+        // recursive solution
         if (!root) return new TreeNode(val);
-        TreeNode *curr_node = root;
-        TreeNode *tail = nullptr;
-
-        while (curr_node) {
-            tail = curr_node;
-            if (curr_node->val == val) return new TreeNode(val);
-            else if (val < curr_node->val) curr_node = curr_node->left;
-            else curr_node = curr_node->right;
-        }
-
-        TreeNode *temp = new TreeNode(val);
-        if (val > tail->val) tail->right = temp;
-        else tail->left = temp;
-
-        return root;  // always return the root after inserting this
+        if (val < root->val)
+            root->left = insertIntoBST(root->left, val);
+        else
+            root->right = insertIntoBST(root->right, val);
+        
+        return root;
     }
 };
 
