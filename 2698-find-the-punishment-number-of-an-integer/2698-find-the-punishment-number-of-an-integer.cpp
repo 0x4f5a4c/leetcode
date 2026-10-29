@@ -6,43 +6,45 @@
 
 #include <bits/stdc++.h>
 using namespace std;
+/**
+ * more optimize with O(1) time complexity for per query
+ * and O(n) for extra memo cache storing
+ */
 
 class Solution {
-public:
-    bool check(int i, int curr_sum, string str, int num) {
-        if (i == str.size()) return curr_sum == num;
+private:
+    static vector<int> memo;
+
+    static bool check(int square, int curr_sum, int num) {
+        if (square == 0) return curr_sum == num;
         if (curr_sum > num) return false;
 
-        bool possible = false;
-        for (int j = i; j < str.size(); ++j) {
-            string sub = str.substr(i, j-i+1);
-            int val = stoi(sub);  // string to integer 
-
-            possible = possible || check(j+1, curr_sum + val, str, num);
-            
-            if (possible) return true;
+        int d = 10;
+        while (square >= d / 10) {
+            if (check(square / d, (square % d) + curr_sum, num)) return true;
+            if (d > square) break;
+            d *= 10;
         }
-
-        return possible;
+        return false;
     }
 
-    int punishmentNumber(int n) {
-        int punishment = 0;
-        for (int num = 1; num <= n; ++num) {
-            int _square = num * num;
-            string str = to_string(_square);
-            if (check(0, 0, str, num)) {
-                punishment += _square;
+    static void precompute() {
+        if (!memo.empty()) return;
+        memo.resize(1001, 0);
+        int running_sum = 0;
+        for (int i = 1; i <= 1000; ++i) {
+            if (check(i * i, 0, i)) {
+                running_sum += (i * i);
             }
+            memo[i] = running_sum;
         }
+    }
 
-        return punishment;
+public:
+    int punishmentNumber(int n) {
+        precompute();
+        return memo[n];
     }
 };
 
-auto init = []() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
-    return 'c';
-}();
+vector<int> Solution::memo;
