@@ -1,45 +1,81 @@
 // رَبِّ زِدْنِي عِلْمًا
 // اے میرے رب! میرے علم میں اضافہ فرما۔
+
+// Question Link : https://leetcode.com/problems/brace-expansion-ii/
+
 #include <bits/stdc++.h>
 using namespace std;
 
-// Question Link : https://leetcode.com/problems/brace-expansion-ii/description/?envType=daily-question&envId=2026-09-25
-
 class Solution {
 public:
-    vector<string> braceExpansionII(string expression) {
-        int i = 0;
-        set<string> res = parse(expression, i);
-        return vector<string>(res.begin(), res.end());
-    }
-private:
-    set<string> parse(const string& expr, int& i) {
-        set<string> res;
-        set<string> cur{""};
-        while (i < expr.size() && expr[i] != '}') {
-            if (expr[i] == '{') {
-                ++i;
-                set<string> next = parse(expr, i);
-                ++i;
-                cur = product(cur, next);
-            } else if (expr[i] == ',') {
-                res.insert(cur.begin(), cur.end());
-                cur = {""};
-                ++i;
-            } else {
-                set<string> next{string(1, expr[i])};
-                ++i;
-                cur = product(cur, next);
-            }
+    string s;
+    int n;
+    int idx = 0;
+
+    set<string> getUnit() {
+        set<string> result;
+
+        if(s[idx] == '{') {
+            idx++;
+            result = performUnion();
+        } else { //alphabet
+            result = {string(1, s[idx])};
         }
-        res.insert(cur.begin(), cur.end());
-        return res;
+
+        idx++;
+        return result;
     }
-    set<string> product(const set<string>& a, const set<string>& b) {
-        set<string> res;
-        for (const string& x : a)
-            for (const string& y : b)
-                res.insert(x + y);
-        return res;
+
+    set<string> performConcat() {
+        set<string> result = {""}; //ordered set
+
+        while(idx < n && (s[idx] == '{' || isalpha(s[idx]))) {
+            set<string> temp = getUnit();
+
+            set<string> concatResult;
+            for(const string& left : result) {
+                for(const string& right : temp) {
+                    concatResult.insert(left+right);
+                }
+            }
+
+            result = concatResult;
+        }
+
+        return result;
+    }
+
+    set<string> performUnion() {
+        set<string> result;
+
+        while(true) {
+            set<string> temp = performConcat();
+            result.insert(begin(temp), end(temp));
+
+            if(idx < n && s[idx] == ',') 
+                idx++;
+            else 
+                break;
+        }
+        return result;
+    }
+
+    vector<string> braceExpansionII(string expression) {
+        n = expression.length();
+        s = expression;
+        idx = 0;
+
+        set<string> st = performUnion();
+        vector<string> result(begin(st), end(st));
+
+        return result;
     }
 };
+
+
+auto init = []() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    return 'c';
+}();
