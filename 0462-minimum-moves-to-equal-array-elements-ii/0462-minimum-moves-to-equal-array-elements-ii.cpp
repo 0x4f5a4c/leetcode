@@ -10,8 +10,9 @@ class Solution {
 public:
     int minMoves2(vector<int>& nums) {
         int n = nums.size(), steps = 0;
+        int mid = n/2;
         sort(nums.begin(), nums.end());
-        for(int i=0; i < n/2; i++){  // this loop is traversing till half of the array which is faster then above solution
+        for(int i = 0; i < mid; i++){  // this loop is traversing till half of the array which is faster then above solution
             steps += nums[n-1-i] - nums[i]; //Adding difference
         }
         return steps;
