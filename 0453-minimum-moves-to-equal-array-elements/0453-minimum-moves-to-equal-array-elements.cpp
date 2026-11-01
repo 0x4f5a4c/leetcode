@@ -12,15 +12,7 @@ using namespace std;
 class Solution {
 public:
     int minMoves(vector<int>& nums) {
-        sort(nums.begin(), nums.end());
-        int n = nums.size();
-        int moves = 0;
-        int min_elem = nums[0];
-        for (int i = n-1; i >= 1; --i) {
-            moves += abs(nums[i] - min_elem);
-        }
-
-        return moves;
+        return accumulate(nums.begin(),nums.end(),0) - ((int)nums.size())*(*min_element(nums.begin(),nums.end()));
     }
 };
 
