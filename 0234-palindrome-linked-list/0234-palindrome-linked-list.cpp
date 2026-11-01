@@ -8,83 +8,26 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
-// time complexity : O(N)
-// space complexity : O(N)  -- required space 
+// this is also similar but using stack
+// time compexity is same as above
 class Solution {
 public:
-    bool isPalindrome(ListNode* head) {
-        // brute force  -- just thinking 
-        vector<int> a;
-        if (!head) return false;
-
+    bool isPalindrome(ListNode* head)  {
+        stack<int> st;
         ListNode *temp = head;
         while (temp) {
-            a.push_back(temp->val);
+            st.push(temp->val);
             temp = temp->next;
         }
 
-        // now check in the array a
-        int l = 0, h = a.size()-1;
-        while (l <= h) {
-            if (a[l] != a[h]) return false;
-            l++;
-            h--;
+        // reset the temp again to head
+        temp = head;
+        while (!st.empty()) {
+            if (temp->val != st.top()) return false;
+            st.pop();
+            temp = temp->next;
         }
 
         return true;
-    }
-};
-
-
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
-// better then before -- reduce space complexity 
-// time complexity : O(N)
-// space complexity : O(1)
-class Solution {
-public:
-    bool isPalindrome(ListNode* head) {
-        // optimize solution
-        if (!head) return false;
-        ListNode *slow = head, *fast = head;
-        while (fast && fast->next) {
-            slow = slow->next;
-            fast = fast->next->next;
-        }
-
-        if (fast) {
-            slow = slow->next;
-        }
-
-        slow = reversing(slow);
-        fast = head;
-
-        while (fast && slow) {
-            if (fast->val != slow->val) return false;
-            fast = fast->next;
-            slow = slow->next;
-        }
-
-        return true;
-    }
-
-    ListNode *reversing(ListNode *slow) {
-        ListNode *prev = nullptr;
-        while (slow) {
-            ListNode *next = slow->next;
-            slow->next = prev;
-            prev = slow;
-            slow = next;
-        }
-
-        return prev;
     }
 };
