@@ -9,17 +9,12 @@ using namespace std;
 class Solution {
 public:
     int minMoves2(vector<int>& nums) {
+        int n = nums.size(), steps = 0;
         sort(nums.begin(), nums.end());
-        int i = 0, j = nums.size()-1;
-        int moves = 0;
-        while (i < j) {
-            // just compute the distace
-            moves += (nums[j] - nums[i]);
-            i++;
-            j--;
+        for(int i=0; i < n/2; i++){  // this loop is traversing till half of the array which is faster then above solution
+            steps += nums[n-1-i] - nums[i]; //Adding difference
         }
-
-        return moves;
+        return steps;
     }
 };
 
