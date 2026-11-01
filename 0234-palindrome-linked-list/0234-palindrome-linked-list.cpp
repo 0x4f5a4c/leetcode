@@ -8,26 +8,40 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
-// this is also similar but using stack
-// time compexity is same as above
 class Solution {
 public:
-    bool isPalindrome(ListNode* head)  {
-        stack<int> st;
-        ListNode *temp = head;
-        while (temp) {
-            st.push(temp->val);
-            temp = temp->next;
+    ListNode *reverse_list(ListNode *head) {
+        // edge case
+        if (!head || !head->next) return head;
+        ListNode *new_head = reverse_list(head->next);
+        ListNode *front = head->next;
+        front->next = head;
+        head->next = nullptr;
+        return new_head;
+    }
+
+    bool isPalindrome(ListNode* head) {
+        if (!head || !head->next) return true;
+        ListNode *slow = head, *fast = head;
+        // finding out the middle and then 
+        while (fast->next && fast->next->next) {
+            slow = slow->next;
+            fast = fast->next->next;
         }
 
-        // reset the temp again to head
-        temp = head;
-        while (!st.empty()) {
-            if (temp->val != st.top()) return false;
-            st.pop();
-            temp = temp->next;
+        // reversing the list
+        ListNode *new_head = reverse_list(slow->next);
+        ListNode *first = head, *second = new_head;
+        while (first && second) {
+            if (first->val != second->val) {
+                reverse_list(new_head);
+                return false;
+            }
+            first  = first->next;
+            second = second->next;
         }
 
+        reverse_list(new_head);
         return true;
     }
 };
