@@ -8,13 +8,15 @@ using namespace std;
 class Solution {
 public:
     int minMoves(vector<int>& nums) {
-        sort(nums.begin(), nums.end());
-        int n = nums.size();
-        int _max = nums[n-1], moves = 0;
-        for (int i = n-1; i >= 0; --i) moves += abs(nums[i] - _max);
-        return moves;
+        int _max = 0, sum = 0;
+        for (int x : nums) {
+            _max = max(_max, x);
+            sum += x;
+        }
+        return nums.size() * _max - sum;
     }
 };
+
 
 auto init = []() {
     ios_base::sync_with_stdio(false);
